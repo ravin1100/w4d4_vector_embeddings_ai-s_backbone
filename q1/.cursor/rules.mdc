@@ -1,0 +1,67 @@
+Create a full-stack project called **"hr-onboarding-assistant"** using the following specs. It should include a FastAPI backend and a React + Vite + Tailwind CSS frontend.
+
+---
+
+## 📦 Backend (FastAPI)
+- Use FastAPI as the framework.
+- Include the following features:
+  1. **Admin authentication** using HTTP Basic Auth (no DB, just hardcoded credentials via `.env`).
+  2. **File upload API** for PDFs and DOCX files, saving them in a local `/uploads` folder.
+  3. Extract text from:
+     - PDF using `PyMuPDF` or `pdfplumber`
+     - DOCX using `python-docx`
+  4. Use **LangChain’s RecursiveCharacterTextSplitter** to chunk the extracted text.
+  5. Use `sentence-transformers` (e.g. `all-MiniLM-L6-v2`) to generate embeddings.
+  6. Store embeddings + metadata in **Qdrant**, running locally (assume Docker).
+  7. Add an API endpoint to **answer questions** using a custom RAG pipeline:
+     - Accept a query
+     - Embed it
+     - Retrieve relevant chunks from Qdrant
+     - Send prompt with context to **Gemini 1.5 Flash**
+     - Return generated answer and source citations
+  8. Optionally log queries and matched document chunks in-memory or JSON.
+
+---
+
+## 🖥️ Frontend (React + Vite + Tailwind CSS)
+- Build a clean React dashboard with the following views:
+  1. **Login screen** (HTTP Basic Auth via Axios headers)
+  2. **Upload screen** to upload PDFs or DOCX files
+  3. **Chat screen** where users can ask questions and see the response + citations
+- Use Axios for API calls.
+- Show a basic upload progress bar.
+- Include Tailwind styling with soft cards and minimal UI.
+
+---
+
+## 🧪 Dev Setup
+- Use `.env` for sensitive variables (e.g., Basic Auth credentials).
+- Use Docker for local Qdrant.
+- Use `uvicorn` to run the backend.
+- Save uploaded files locally in `/uploads`.
+
+---
+
+Folder structure should look like:
+```bash
+hr-onboarding-assistant/
+├── backend/
+│   ├── main.py
+│   ├── auth.py
+│   ├── ingest.py
+│   ├── qa.py
+│   ├── .gitignore
+│   ├── utils/
+│   └── uploads/
+├── frontend/
+│   ├── src/
+│   └── public/
+├── .env
+├── docker-compose.yml (for qdrant)
+└── README.md 
+
+
+- README.md file should be comprehensive with project folder structrue and also i want to later upload UI screenshots, so UI snapshots should be there in README.md file
+
+
+
